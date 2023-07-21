@@ -18,8 +18,8 @@
  *   'aa',''    => 'aa'
  *   '',  'bb'  => 'bb'
  */
-function concatenateStrings(/* value1, value2 */) {
-  throw new Error('Not implemented');
+function concatenateStrings(a, b) {
+  return a.concat(b);
 }
 
 
@@ -34,8 +34,8 @@ function concatenateStrings(/* value1, value2 */) {
  *   'b'     => 1
  *   ''      => 0
  */
-function getStringLength(/* value */) {
-  throw new Error('Not implemented');
+function getStringLength(a) {
+  return a.length;
 }
 
 /**
@@ -51,8 +51,8 @@ function getStringLength(/* value */) {
  *   'John','Doe'      => 'Hello, John Doe!'
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(name, lastName) {
+  return `Hello, ${name} ${lastName}!`;
 }
 
 /**
@@ -65,8 +65,17 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   'Hello, John Doe!' => 'John Doe'
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(string) {
+  const strArr = string.split(' ');
+  strArr.forEach((str) => {
+    str.trim();
+  });
+
+  strArr.shift();
+  let modifiedString = strArr.join(' ');
+  modifiedString = modifiedString.substring(0, modifiedString.length - 1);
+
+  return modifiedString;
 }
 
 
@@ -80,8 +89,8 @@ function extractNameFromTemplate(/* value */) {
  *   'John Doe'  => 'J'
  *   'cat'       => 'c'
  */
-function getFirstChar(/* value */) {
-  throw new Error('Not implemented');
+function getFirstChar(string) {
+  return string.substring(0, 1);
 }
 
 /**
@@ -95,8 +104,8 @@ function getFirstChar(/* value */) {
  *   'cat'              => 'cat'
  *   '\tHello, World! ' => 'Hello, World!'
  */
-function removeLeadingAndTrailingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeLeadingAndTrailingWhitespaces(string) {
+  return string.trim();
 }
 
 /**
@@ -110,8 +119,8 @@ function removeLeadingAndTrailingWhitespaces(/* value */) {
  *   'A', 5  => 'AAAAA'
  *   'cat', 3 => 'catcatcat'
  */
-function repeatString(/* value, count */) {
-  throw new Error('Not implemented');
+function repeatString(string, repeatNum) {
+  return string.repeat(repeatNum);
 }
 
 /**
@@ -126,8 +135,12 @@ function repeatString(/* value, count */) {
  *   'I like legends', 'end' => 'I like legs',
  *   'ABABAB','BA' => 'ABAB'
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeFirstOccurrences(str, value) {
+  const num = str.indexOf(value);
+  const start = str.substring(0, num);
+  const end = str.substring((num + value.length));
+  const newStr = start.concat(end);
+  return newStr;
 }
 
 /**
@@ -141,8 +154,8 @@ function removeFirstOccurrences(/* str, value */) {
  *   '<span>' => 'span'
  *   '<a>' => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.substring(1, str.length - 1);
 }
 
 
@@ -156,8 +169,8 @@ function unbracketTag(/* str */) {
  *   'Thunderstruck' => 'THUNDERSTRUCK'
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
-function convertToUpperCase(/* str */) {
-  throw new Error('Not implemented');
+function convertToUpperCase(str) {
+  return str.toUpperCase();
 }
 
 /**
@@ -175,8 +188,8 @@ function convertToUpperCase(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -202,8 +215,21 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const middleLayerSide = '│';
+  const middleSpace = '─'.repeat(width - 2);
+  const space = ' ';
+  const startUp = '┌';
+  const endUp = '┐';
+  const upperSide = startUp.concat(middleSpace, endUp, '\n');
+  const middleLayer = middleLayerSide.concat(space.repeat(width - 2), middleLayerSide, '\n');
+  const middleLayerRepeat = middleLayer.repeat(height - 2);
+  const startBottom = '└';
+  const endBottom = '┘';
+  const bottomSide = startBottom.concat(middleSpace, endBottom, '\n');
+  const rect = upperSide.concat(middleLayerRepeat, bottomSide);
+
+  return rect;
 }
 
 
@@ -223,8 +249,24 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const regEX = /[a-zA-Z]/g;
+  let code = 0;
+  let newCode = 0;
+
+  const codedStr = str.replace(regEX, (char) => {
+    code = char.charCodeAt(0);
+    if (code >= 65 && code <= 90) {
+      newCode = ((code - 65 + 13) % 26) + 65;
+    } else if (code >= 97 && code <= 122) {
+      newCode = ((code - 97 + 13) % 26) + 97;
+    } else {
+      return char;
+    }
+
+    return String.fromCharCode(newCode);
+  });
+  return codedStr;
 }
 
 /**
@@ -240,8 +282,11 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(str) {
+  if (typeof str === 'string' || str instanceof String) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -269,10 +314,44 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
-}
+function getCardId(card) {
+  let num = 0;
+  const totalCards = 52;
+  const rows = 4;
+  const cardsInOneRow = totalCards / rows;
 
+  if (card.includes('♣')) {
+    num = 0;
+  } else if (card.includes('♦')) {
+    num = totalCards / 4;
+  } else if (card.includes('♥')) {
+    num = totalCards / 2;
+  } else if (card.includes('♠')) {
+    num = totalCards - totalCards / 4;
+  }
+
+  if (card.includes('A')) {
+    return num;
+  }
+
+  if (card.includes('J')) {
+    return num + cardsInOneRow - 3;
+  }
+
+  if (card.includes('Q')) {
+    return num + cardsInOneRow - 2;
+  }
+
+  if (card.includes('K')) {
+    return num + cardsInOneRow - 1;
+  }
+
+  if (card.includes('10')) {
+    return num + cardsInOneRow - 4;
+  }
+
+  return num + (+card.slice(0, 1)) - 1;
+}
 
 module.exports = {
   concatenateStrings,
